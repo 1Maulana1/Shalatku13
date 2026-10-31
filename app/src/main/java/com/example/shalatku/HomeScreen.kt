@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,7 +19,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen(prayers: List<Prayer>, modifier: Modifier = Modifier) {
-    Column(modifier.padding(16.dp)) {
+    Column(
+        modifier
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
         Text("Shalatku", style = MaterialTheme.typography.headlineMedium)
         Text("Today's prayer times", style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(16.dp))

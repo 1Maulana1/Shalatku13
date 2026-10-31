@@ -16,11 +16,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.shalatku.ui.theme.ShalatkuTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,9 +36,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ShalatkuApp() {
-    var selected by remember { mutableStateOf(0) }
-    val donePrayers = remember { mutableStateListOf<String>() }
+fun ShalatkuApp(viewModel: SalatKuViewModel = viewModel()) {
+    var selected by rememberSaveable { mutableIntStateOf(0) }
 
     Scaffold(
         bottomBar = {
@@ -69,13 +68,20 @@ fun ShalatkuApp() {
             0 -> HomeScreen(samplePrayers, contentModifier)
             1 -> TrackerScreen(
                 prayers = samplePrayers,
-                donePrayers = donePrayers,
-                onToggle = { name ->
-                    if (name in donePrayers) donePrayers.remove(name) else donePrayers.add(name)
-                },
+                donePrayers = viewModel.donePrayers,
+                onToggle = viewModel::togglePrayer,
+                onClear = viewModel::clearPrayers,
                 modifier = contentModifier
             )
-            2 -> TasbihScreen(contentModifier)
+            2 -> TasbihScreen(
+                count = viewModel.tasbihCount,
+                rounds = viewModel.completedRounds,
+                roundSize = viewModel.roundSize,
+                onIncrement = viewModel::incrementTasbih,
+                onReset = viewModel::resetTasbih,
+                onSelectRoundSize = viewModel::setRoundSize,
+                modifier = contentModifier
+            )
         }
     }
 }
