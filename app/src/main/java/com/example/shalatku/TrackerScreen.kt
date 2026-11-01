@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 fun TrackerScreen(
     prayers: List<Prayer>,
     donePrayers: List<String>,
+    doneCount: Int,
     onToggle: (String) -> Unit,
     onClear: () -> Unit,
     modifier: Modifier = Modifier
@@ -31,7 +32,7 @@ fun TrackerScreen(
     ) {
         Text("Prayer Tracker", style = MaterialTheme.typography.headlineMedium)
         Text(
-            "${donePrayers.size} of ${prayers.size} prayers done today",
+            "$doneCount of ${prayers.size} prayers done today",
             style = MaterialTheme.typography.bodyLarge
         )
 
